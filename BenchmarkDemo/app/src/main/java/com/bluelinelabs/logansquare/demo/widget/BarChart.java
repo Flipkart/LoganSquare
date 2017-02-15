@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** Hacked together barchart view for this demo. Please do not take this as an example of a good way to do things. */
+/**
+ * Hacked together barchart view for this demo. Please do not take this as an example of a good way to do things.
+ */
 public class BarChart extends View {
 
     private static final int SECTION_COUNT = 4;
-    private static final int COLUMNS_PER_SECTION = 4;
+    private static final int COLUMNS_PER_SECTION = 5;
 
     private final Section[] mSections = new Section[SECTION_COUNT];
     private final Rect mTextBounds = new Rect();
@@ -60,16 +62,19 @@ public class BarChart extends View {
         mPaints[3] = new Paint();
         mPaints[3].setColor(0xffb5d951);
 
+        mPaints[4] = new Paint();
+        mPaints[4].setColor(0xffb5d951);
+
         mTextPaint = new TextPaint();
         mTextPaint.setColor(0xff555555);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextSize(density * 12);
 
-        mColumnHeight = (int)(density * 20);
-        mColumnPadding = (int)(density * 2);
-        mSectionPadding = (int)(density * 24);
-        mDividerHeight = (int)(density * 2);
-        mTextPadding = (int)(density * 4);
+        mColumnHeight = (int) (density * 20);
+        mColumnPadding = (int) (density * 2);
+        mSectionPadding = (int) (density * 24);
+        mDividerHeight = (int) (density * 2);
+        mTextPadding = (int) (density * 4);
 
         for (int i = 0; i < SECTION_COUNT; i++) {
             mSections[i] = new Section();
@@ -106,7 +111,8 @@ public class BarChart extends View {
         invalidate();
     }
 
-    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int width = MeasureSpec.getSize(widthMeasureSpec);
         final int height = SECTION_COUNT * mSectionPadding + SECTION_COUNT * COLUMNS_PER_SECTION * (mColumnPadding + mColumnHeight);
         setMeasuredDimension(width, height);
@@ -119,7 +125,7 @@ public class BarChart extends View {
         final int height = getMeasuredHeight();
         final int width = getMeasuredWidth();
 
-        final int heightAfterPadding = height  - mSectionPadding * SECTION_COUNT - (SECTION_COUNT * COLUMNS_PER_SECTION - 1) * mColumnPadding;
+        final int heightAfterPadding = height - mSectionPadding * SECTION_COUNT - (SECTION_COUNT * COLUMNS_PER_SECTION - 1) * mColumnPadding;
         final int columnHeight = heightAfterPadding / (SECTION_COUNT * COLUMNS_PER_SECTION);
 
         float[] maxTimings = new float[SECTION_COUNT];
@@ -143,7 +149,7 @@ public class BarChart extends View {
             if (maxMs > 0) {
                 for (int columnIndex = 0; columnIndex < COLUMNS_PER_SECTION; columnIndex++) {
                     Column column = section.columns[columnIndex];
-                    int columnWidth = (int)(width * column.getMedianTiming() / maxMs);
+                    int columnWidth = (int) (width * column.getMedianTiming() / maxMs);
                     canvas.drawRect(0, currentY, columnWidth, currentY + columnHeight, mPaints[columnIndex]);
 
                     String columnTitle = column.getTitle();
@@ -161,12 +167,12 @@ public class BarChart extends View {
 
     public static class Section {
 
-        public String title;
         private final Column[] columns;
+        public String title;
 
         public Section() {
             title = "";
-            columns = new Column[] {new Column(), new Column(), new Column(),  new Column()};
+            columns = new Column[]{new Column(), new Column(), new Column(), new Column(), new Column()};
         }
     }
 
