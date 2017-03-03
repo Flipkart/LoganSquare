@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.bluelinelabs.logansquare.LoganSquare;
+import com.bluelinelabs.logansquare.demo.model.BufferPool;
 import com.bluelinelabs.logansquare.demo.model.Response;
 import com.bluelinelabs.logansquare.demo.parsetasks.GsonParser;
 import com.bluelinelabs.logansquare.demo.parsetasks.JacksonDatabindParser;
@@ -97,13 +98,15 @@ public class MainActivity extends ActionBarActivity {
         ObjectMapper objectMapper = new ObjectMapper();
         Moshi moshi = new Moshi.Builder().build();
         List<Parser> parsers = new ArrayList<>();
+        BufferPool bufferPool = new BufferPool(8);
+        Stag.Factory stagFactory = new Stag.Factory();
         for (String jsonString : mJsonStringsToParse) {
             for (int iteration = 0; iteration < ITERATIONS; iteration++) {
-                parsers.add(new GsonParser(mParseListener, jsonString, gson));
+                parsers.add(new GsonParser(mParseListener, jsonString, gson, bufferPool));
                 parsers.add(new JacksonDatabindParser(mParseListener, jsonString, objectMapper));
                 parsers.add(new MoshiParser(mParseListener, jsonString, moshi));
                 parsers.add(new LoganSquareParser(mParseListener, jsonString));
-                parsers.add(new StagParser(mParseListener, jsonString, gson));
+                parsers.add(new StagParser(mParseListener, jsonString, gson, stagFactory, bufferPool));
             }
         }
 

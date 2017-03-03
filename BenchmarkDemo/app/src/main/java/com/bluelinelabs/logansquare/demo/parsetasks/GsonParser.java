@@ -13,10 +13,10 @@ public class GsonParser extends Parser {
     private final Gson gson;
     private final BufferPool bufferPool;
 
-    public GsonParser(ParseListener parseListener, String jsonString, Gson gson) {
+    public GsonParser(ParseListener parseListener, String jsonString, Gson gson, BufferPool bufferPool) {
         super(parseListener, jsonString);
         this.gson = gson;
-        this.bufferPool = new BufferPool(4);
+        this.bufferPool = bufferPool;
     }
 
     @Override

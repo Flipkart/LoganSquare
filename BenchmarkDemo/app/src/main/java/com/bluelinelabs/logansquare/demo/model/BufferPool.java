@@ -34,7 +34,11 @@ public class BufferPool {
     }
 
     synchronized char[] acquire() {
-        return (currentIndex > -1) ? charBuffer[currentIndex--] : new char[1024];
+        if(currentIndex > -1) {
+            return charBuffer[currentIndex--];
+        } else {
+            return new char[1024];
+        }
     }
 
     synchronized void release(char[] buffer) {

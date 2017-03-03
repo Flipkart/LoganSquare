@@ -18,11 +18,11 @@ public class StagParser extends Parser {
     private final BufferPool bufferPool;
 
 
-    public StagParser(ParseListener parseListener, String jsonString, Gson gson) {
+    public StagParser(ParseListener parseListener, String jsonString, Gson gson, Stag.Factory stagFactory, BufferPool bufferPool) {
         super(parseListener, jsonString);
-        this.typeAdapter = (new Stag.Factory()).getResponse$TypeAdapter(gson);
+        this.typeAdapter = stagFactory.getResponse$TypeAdapter(gson);
         this.gson = gson;
-        this.bufferPool = new BufferPool(4);
+        this.bufferPool = bufferPool;
     }
 
     @Override
@@ -35,7 +35,6 @@ public class StagParser extends Parser {
         } catch (Exception e) {
             return 0;
         } finally {
-            System.out.println("Calling GC for STAG");
             System.gc();
         }
     }
