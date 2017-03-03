@@ -103,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
                 parsers.add(new JacksonDatabindParser(mParseListener, jsonString, objectMapper));
                 parsers.add(new MoshiParser(mParseListener, jsonString, moshi));
                 parsers.add(new LoganSquareParser(mParseListener, jsonString));
-                parsers.add(new StagParser(mParseListener, jsonString, factory, gson));
+                parsers.add(new StagParser(mParseListener, jsonString, gson));
             }
         }
 
